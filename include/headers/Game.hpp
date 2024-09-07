@@ -34,6 +34,10 @@ private:
     Board *m_Board; 
 
     PieceManager* bpm;
+
+    Piece* selectedPiece;
+    int selectedRow;
+    int selectedCol;
 };
 
 #endif

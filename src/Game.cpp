@@ -12,7 +12,7 @@ void Game::init()
     TextureManager::getInstance();
 }
 
-Game::Game(const char *p_Title, int p_Width, int p_Height)
+Game::Game(const char *p_Title, int p_Width, int p_Height) : selectedPiece(nullptr), selectedRow(-1), selectedCol(-1)
 {
     init();
 
@@ -43,7 +43,7 @@ void Game::loadAssets()
     TextureManager::getInstance()->loadTexture("B_Q", "assets/pieces/Black/B_Q.png", m_Renderer);
     TextureManager::getInstance()->loadTexture("B_K", "assets/pieces/Black/B_K.png", m_Renderer);
     TextureManager::getInstance()->loadTexture("B_P", "assets/pieces/Black/B_P.png", m_Renderer);
-    
+
     TextureManager::getInstance()->loadTexture("W_R", "assets/pieces/White/W_R.png", m_Renderer);
     TextureManager::getInstance()->loadTexture("W_Kn", "assets/pieces/White/W_Kn.png", m_Renderer);
     TextureManager::getInstance()->loadTexture("W_B", "assets/pieces/White/W_B.png", m_Renderer);
@@ -54,6 +54,9 @@ void Game::loadAssets()
 
 void Game::pollEvent()
 {
+    int x, y;
+    int row, col;
+
     while (SDL_PollEvent(m_Event))
     {
         switch (m_Event->type)
@@ -61,15 +64,54 @@ void Game::pollEvent()
         case SDL_QUIT:
             m_Running = false;
             break;
+
+        case SDL_MOUSEMOTION:
+            SDL_GetMouseState(&x, &y);
+
+            x -= PIECE_SIZE / 2;
+            y -= PIECE_SIZE / 2;
+
+            row = (y / PIECE_SIZE);
+            col = (x / PIECE_SIZE);
+            bpm->setMouseHighlight(row, col);
+            break;
+
         case SDL_MOUSEBUTTONDOWN:
-            switch (m_Event->button.button)
+            if (m_Event->button.button == SDL_BUTTON_LEFT)
             {
-            case SDL_BUTTON_LEFT:
-                m_Is_Selected = true;
+                SDL_GetMouseState(&x, &y);
+
+                x -= PIECE_SIZE / 2;
+                y -= PIECE_SIZE / 2;
+
+                row = y / PIECE_SIZE;
+                col = x / PIECE_SIZE;
+
+                Piece *piece = bpm->getPieceAtPosition(row, col);
+                if (bpm->getSelectedPiece())
+                {
+                    if (piece == bpm->getSelectedPiece())
+                    {
+                        bpm->clearSelection();
+                    }
+                    else
+                    {
+                        bpm->movePiece(bpm->getSelectedPiece(), row, col);
+                        bpm->clearSelection();
+                    }
+                }
+                else if (piece)
+                {
+                    bpm->setSelectedPiece(piece);
+                }
             }
             break;
+
         case SDL_MOUSEBUTTONUP:
             m_Is_Selected = false;
+            break;
+
+        default:
             break;
         }
     }
@@ -83,13 +125,6 @@ void Game::update()
 {
     pollEvent();
 
-    if (m_Is_Selected)
-        {
-            int x , y ;
-            SDL_GetMouseState(&x,&y);
-
-        }
-
     m_Board->update();
     render();
 }
@@ -101,7 +136,6 @@ void Game::render()
     m_Board->render();
 
     bpm->drawPieces();
-
 
     SDL_RenderPresent(m_Renderer);
 }

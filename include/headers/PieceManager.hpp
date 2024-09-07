@@ -34,14 +34,28 @@ public:
 
     void drawPieces();
 
+    Piece *getPieceAtPosition(int row, int col);
+    void movePiece(Piece *piece, int row, int col);
+
+    void setSelectedPiece(Piece* piece);  
+    Piece* getSelectedPiece() const;     
+    void clearSelection();  
+
+    void setMouseHighlight(int row, int col); 
+    void clearMouseHighlight(); 
+
 private:
-    // void initPieces();
     void initDefault();
 
     SDL_Renderer *m_Renderer;
 
-    std::array<std::array<int, 8>, 8> boardPieces; // 2d array
-    std::vector<Piece *> pieces;
+    std::array<std::array<int, 8>, 8> boardPieces; // 2D array representing the board
+    std::vector<Piece *> pieces;                   // Vector holding all piece objects
+
+     Piece* selectedPiece;
+
+     SDL_Rect mouseHighlightRect;
+    bool highlightMouse;
 };
 
 #endif

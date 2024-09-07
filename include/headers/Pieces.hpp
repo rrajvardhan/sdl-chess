@@ -9,20 +9,32 @@
 #define ORIGIN_X 35
 #define ORIGIN_Y 35
 
-class Piece {
-    public:
-        Piece(SDL_Renderer* renderer , const std::string name);
-        ~Piece();
-        void setPosition(int x_index, int y_index);
-        void draw();
+class Piece
+{
+public:
+    Piece(SDL_Renderer *renderer, const std::string name);
+    ~Piece();
+    void setPosition(int x_index, int y_index);
+    void draw();
 
-        const std::string m_Name;
-    private:
-        SDL_Renderer* m_Renderer;
-        SDL_Rect *pieceProperty;
-        SDL_Texture* pieceTexture;
-        void init();
-        
+    std::string getName() { return m_Name; }
+    int getPositionX()
+    {
+        return pieceProperty->x;
+    }
+
+    int getPositionY()
+    {
+        return pieceProperty->y;
+    }
+
+    const std::string m_Name;
+
+private:
+    SDL_Renderer *m_Renderer;
+    SDL_Rect *pieceProperty;
+    SDL_Texture *pieceTexture;
+    void init();
 };
 
 #endif

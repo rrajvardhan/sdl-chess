@@ -7,6 +7,7 @@ void Game::init()
     m_Window = NULL;
     m_Renderer = NULL;
     m_Running = true;
+    m_Is_Selected = false;
 
     TextureManager::getInstance();
 }
@@ -21,7 +22,7 @@ Game::Game(const char *p_Title, int p_Width, int p_Height)
     loadAssets();
 
     m_Board = new Board(m_Renderer);
-    m_bP = new Piece(m_Renderer, "B_P");
+    bpm = new PieceManager(m_Renderer);
 }
 
 Game::~Game()
@@ -34,9 +35,21 @@ Game::~Game()
 
 void Game::loadAssets()
 {
-    TextureManager::getInstance()->loadTexture("board_texture", "assets/boards/board_plain_01.png", m_Renderer);
+    TextureManager::getInstance()->loadTexture("board_texture", "assets/boards/board_plain_03.png", m_Renderer);
 
-    TextureManager::getInstance()->loadTexture("B_P", "assets/pieces/Black/B_Q.png", m_Renderer);
+    TextureManager::getInstance()->loadTexture("B_R", "assets/pieces/Black/B_R.png", m_Renderer);
+    TextureManager::getInstance()->loadTexture("B_Kn", "assets/pieces/Black/B_Kn.png", m_Renderer);
+    TextureManager::getInstance()->loadTexture("B_B", "assets/pieces/Black/B_B.png", m_Renderer);
+    TextureManager::getInstance()->loadTexture("B_Q", "assets/pieces/Black/B_Q.png", m_Renderer);
+    TextureManager::getInstance()->loadTexture("B_K", "assets/pieces/Black/B_K.png", m_Renderer);
+    TextureManager::getInstance()->loadTexture("B_P", "assets/pieces/Black/B_P.png", m_Renderer);
+    
+    TextureManager::getInstance()->loadTexture("W_R", "assets/pieces/White/W_R.png", m_Renderer);
+    TextureManager::getInstance()->loadTexture("W_Kn", "assets/pieces/White/W_Kn.png", m_Renderer);
+    TextureManager::getInstance()->loadTexture("W_B", "assets/pieces/White/W_B.png", m_Renderer);
+    TextureManager::getInstance()->loadTexture("W_Q", "assets/pieces/White/W_Q.png", m_Renderer);
+    TextureManager::getInstance()->loadTexture("W_K", "assets/pieces/White/W_K.png", m_Renderer);
+    TextureManager::getInstance()->loadTexture("W_P", "assets/pieces/White/W_P.png", m_Renderer);
 }
 
 void Game::pollEvent()
@@ -47,6 +60,16 @@ void Game::pollEvent()
         {
         case SDL_QUIT:
             m_Running = false;
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            switch (m_Event->button.button)
+            {
+            case SDL_BUTTON_LEFT:
+                m_Is_Selected = true;
+            }
+            break;
+        case SDL_MOUSEBUTTONUP:
+            m_Is_Selected = false;
             break;
         }
     }
@@ -59,6 +82,14 @@ bool Game::isRunning()
 void Game::update()
 {
     pollEvent();
+
+    if (m_Is_Selected)
+        {
+            int x , y ;
+            SDL_GetMouseState(&x,&y);
+
+        }
+
     m_Board->update();
     render();
 }
@@ -69,8 +100,8 @@ void Game::render()
 
     m_Board->render();
 
-    m_bP->draw();
-    m_bP->setPosition(4, 4);
+    bpm->drawPieces();
+
 
     SDL_RenderPresent(m_Renderer);
 }

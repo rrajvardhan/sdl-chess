@@ -11,8 +11,8 @@ Piece::Piece(SDL_Renderer *renderer, const std::string name) : m_Renderer(render
     pieceProperty->w = PIECE_SIZE;
     pieceProperty->h = PIECE_SIZE;
 
-    pieceProperty->x = ORIGIN_X + OFFSET;
-    pieceProperty->y = ORIGIN_Y + OFFSET;
+    pieceProperty->x = ORIGIN_X;
+    pieceProperty->y = ORIGIN_Y;
 }
 
 Piece::~Piece()
@@ -23,8 +23,8 @@ Piece::~Piece()
 
 void Piece::setPosition(int x_index, int y_index)
 {
-    pieceProperty->x = (x_index-1) * 80 + OFFSET + ORIGIN_X;
-    pieceProperty->y = (y_index-1) * 80 + OFFSET + ORIGIN_Y;
+    pieceProperty->x = (x_index) + ORIGIN_X;
+    pieceProperty->y = (y_index) + ORIGIN_Y;
 }
 
 void Piece::draw()

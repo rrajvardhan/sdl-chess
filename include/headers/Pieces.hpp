@@ -4,7 +4,7 @@
 #include <string>
 #include "TextureManager.hpp"
 
-#define PIECE_SIZE 70
+#define PIECE_SIZE 80
 #define OFFSET 5
 #define ORIGIN_X 35
 #define ORIGIN_Y 35

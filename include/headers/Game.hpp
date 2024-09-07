@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 
 #include "TextureManager.hpp"
+#include "PieceManager.hpp"
 #include "Board.hpp"
 #include "Pieces.hpp"
 
@@ -26,10 +27,13 @@ private:
     SDL_Window *m_Window;
     SDL_Renderer *m_Renderer;
 
+    bool m_Is_Selected;
+
     SDL_Event *m_Event;
 
-    Board *m_Board;
-    Piece* m_bP;   
+    Board *m_Board; 
+
+    PieceManager* bpm;
 };
 
 #endif

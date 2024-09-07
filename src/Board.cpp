@@ -33,8 +33,6 @@ void Board::render()
     //         SDL_RenderFillRect(m_Renderer, &square);
     //     }
     // }
-
-    // SDL_RenderPresent(m_Renderer);
 }
 
 void Board::update()

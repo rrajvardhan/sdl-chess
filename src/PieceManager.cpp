@@ -255,11 +255,11 @@ void PieceManager::movePiece(Piece *piece, int newRow, int newCol)
     // TODO: pawn promotion options
     if (pieceName == "W_P" && newRow == 0)
     {
-        promotePawn(piece, "W_Q"); 
+        promotePawn(piece, "W_Q");
     }
     else if (pieceName == "B_P" && newRow == 7)
     {
-        promotePawn(piece, "B_Q"); 
+        promotePawn(piece, "B_Q");
     }
     else
     {
@@ -351,7 +351,7 @@ void PieceManager::calculateValidMoves(Piece *piece)
 
 void PieceManager::drawValidMoves()
 {
-    SDL_SetRenderDrawColor(m_Renderer, 20, 20, 20, 200); 
+    SDL_SetRenderDrawColor(m_Renderer, 20, 20, 20, 200);
 
     for (const auto &move : validMoves)
     {
@@ -363,7 +363,7 @@ void PieceManager::drawValidMoves()
         rect.x = move.second * PIECE_SIZE + ORIGIN_X + (PIECE_SIZE - dotSize) / 2;
         rect.y = move.first * PIECE_SIZE + ORIGIN_Y + (PIECE_SIZE - dotSize) / 2;
 
-        SDL_RenderFillRect(m_Renderer, &rect); 
+        SDL_RenderFillRect(m_Renderer, &rect);
     }
 }
 
@@ -406,9 +406,13 @@ bool PieceManager::isValidMove(Piece *piece, int targetRow, int targetCol)
         }
 
         // Diagonal capture
-        if ((targetCol == currentCol - 1 || targetCol == currentCol + 1) && targetRow == currentRow + direction && boardPieces[targetRow][targetCol] < 0)
+        if ((targetCol == currentCol - 1 || targetCol == currentCol + 1) && targetRow == currentRow + direction && boardPieces[targetRow][targetCol] != 0)
         {
-            return true;
+            int targetPiece = boardPieces[targetRow][targetCol];
+            if ((pieceName == "W_P" && targetPiece < 0) || (pieceName == "B_P" && targetPiece > 0))
+            {
+                return true;
+            }
         }
     }
     else if (pieceName == "W_R" || pieceName == "B_R") // Rook

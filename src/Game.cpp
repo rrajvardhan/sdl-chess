@@ -140,8 +140,8 @@ void Game::render()
 
     m_Board->render();
 
-    bpm->drawPieces();
     bpm->drawValidMoves();
+    bpm->drawPieces();
 
     SDL_RenderPresent(m_Renderer);
 }

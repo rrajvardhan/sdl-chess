@@ -103,7 +103,7 @@ PieceManager::~PieceManager()
     }
 }
 
-void PieceManager::drawPieces()
+void PieceManager::drawPieces() 
 {
     if (highlightMouse)
     {
@@ -115,7 +115,7 @@ void PieceManager::drawPieces()
     {
         if (p == selectedPiece)
         {
-            SDL_SetRenderDrawColor(m_Renderer, 255, 235, 65, 255);
+            SDL_SetRenderDrawColor(m_Renderer, 36, 40, 59, 1);
             SDL_Rect highlightRect = {
                 p->getPositionX(),
                 p->getPositionY(),
@@ -351,12 +351,12 @@ void PieceManager::calculateValidMoves(Piece *piece)
 
 void PieceManager::drawValidMoves()
 {
-    SDL_SetRenderDrawColor(m_Renderer, 20, 20, 20, 200);
+    SDL_SetRenderDrawColor(m_Renderer, 37, 40, 59, 255);
 
     for (const auto &move : validMoves)
     {
         SDL_Rect rect;
-        int dotSize = PIECE_SIZE / 4;
+        int dotSize = PIECE_SIZE * 1;
         rect.w = dotSize;
         rect.h = dotSize;
 

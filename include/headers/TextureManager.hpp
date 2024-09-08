@@ -9,7 +9,7 @@
 class TextureManager
 {
 public:
-    static TextureManager* getInstance(); // Singleton pattern
+    static TextureManager* getInstance(); 
 
     bool loadTexture(const std::string& id, const std::string& filename, SDL_Renderer* renderer);
     void draw(const std::string& id, int x, int y, int width, int height, SDL_Renderer* renderer);
@@ -18,7 +18,7 @@ public:
     ~TextureManager();
 
 private:
-    TextureManager() = default; // Private constructor for singleton
+    TextureManager() = default;
 
     std::map<std::string, SDL_Texture*> m_TextureMap; // Map to store textures
 };

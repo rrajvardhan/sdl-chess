@@ -37,12 +37,18 @@ public:
     Piece *getPieceAtPosition(int row, int col);
     void movePiece(Piece *piece, int row, int col);
 
-    void setSelectedPiece(Piece* piece);  
-    Piece* getSelectedPiece() const;     
-    void clearSelection();  
+    void setSelectedPiece(Piece *piece);
+    Piece *getSelectedPiece() const;
+    void clearSelection();
 
-    void setMouseHighlight(int row, int col); 
-    void clearMouseHighlight(); 
+    void setMouseHighlight(int row, int col);
+    void clearMouseHighlight();
+
+    bool isValidMove(Piece *piece, int targetRow, int targetCol);
+    void calculateValidMoves(Piece* piece);
+    void drawValidMoves();
+
+    void promotePawn(Piece* pawn, const std::string& promotionPieceName);
 
 private:
     void initDefault();
@@ -52,10 +58,12 @@ private:
     std::array<std::array<int, 8>, 8> boardPieces; // 2D array representing the board
     std::vector<Piece *> pieces;                   // Vector holding all piece objects
 
-     Piece* selectedPiece;
+    Piece *selectedPiece;
 
-     SDL_Rect mouseHighlightRect;
+    SDL_Rect mouseHighlightRect;
     bool highlightMouse;
+
+    std::vector<std::pair<int, int>> validMoves;
 };
 
 #endif

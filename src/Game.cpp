@@ -94,15 +94,20 @@ void Game::pollEvent()
                     {
                         bpm->clearSelection();
                     }
-                    else
+                    else if (bpm->isValidMove(bpm->getSelectedPiece(), row, col))
                     {
                         bpm->movePiece(bpm->getSelectedPiece(), row, col);
+                        bpm->clearSelection();
+                    }
+                    else
+                    {
                         bpm->clearSelection();
                     }
                 }
                 else if (piece)
                 {
                     bpm->setSelectedPiece(piece);
+                    bpm->calculateValidMoves(piece);
                 }
             }
             break;
@@ -136,6 +141,7 @@ void Game::render()
     m_Board->render();
 
     bpm->drawPieces();
+    bpm->drawValidMoves();
 
     SDL_RenderPresent(m_Renderer);
 }

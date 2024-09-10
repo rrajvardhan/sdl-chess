@@ -14,6 +14,78 @@ void PieceManager::initDefault()
         5, 4, 3, 2, 1, 3, 4, 5};
 }
 
+void PieceManager::reset()
+{
+    std::cout << "reseting pieces" << std::endl;
+    boardPieces = {
+        -5, -4, -3, -2, -1, -3, -4, -5,
+        -6, -6, -6, -6, -6, -6, -6, -6,
+        0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+        6, 6, 6, 6, 6, 6, 6, 6,
+        5, 4, 3, 2, 1, 3, 4, 5};
+
+    // Clear and reinitialize the pieces
+    for (Piece *p : pieces)
+    {
+        delete p;
+    }
+    pieces.clear();
+
+    for (int row = 0; row < 8; ++row)
+    {
+        for (int col = 0; col < 8; ++col)
+        {
+            Piece *p;
+            switch (boardPieces[col][row])
+            {
+            case PIECE_TYPE::B_R:
+                p = new Piece(m_Renderer, "B_R");
+                break;
+            case PIECE_TYPE::B_Kn:
+                p = new Piece(m_Renderer, "B_Kn");
+                break;
+            case PIECE_TYPE::B_B:
+                p = new Piece(m_Renderer, "B_B");
+                break;
+            case PIECE_TYPE::B_Q:
+                p = new Piece(m_Renderer, "B_Q");
+                break;
+            case PIECE_TYPE::B_K:
+                p = new Piece(m_Renderer, "B_K");
+                break;
+            case PIECE_TYPE::B_P:
+                p = new Piece(m_Renderer, "B_P");
+                break;
+            case PIECE_TYPE::W_R:
+                p = new Piece(m_Renderer, "W_R");
+                break;
+            case PIECE_TYPE::W_Kn:
+                p = new Piece(m_Renderer, "W_Kn");
+                break;
+            case PIECE_TYPE::W_B:
+                p = new Piece(m_Renderer, "W_B");
+                break;
+            case PIECE_TYPE::W_Q:
+                p = new Piece(m_Renderer, "W_Q");
+                break;
+            case PIECE_TYPE::W_K:
+                p = new Piece(m_Renderer, "W_K");
+                break;
+            case PIECE_TYPE::W_P:
+                p = new Piece(m_Renderer, "W_P");
+                break;
+            default:
+                continue;
+            }
+            p->setPosition(row * PIECE_SIZE, col * PIECE_SIZE);
+            pieces.push_back(p);
+        }
+    }
+}
+
 PieceManager::PieceManager(SDL_Renderer *renderer) : m_Renderer(renderer), selectedPiece(nullptr)
 {
     initDefault();
@@ -103,7 +175,7 @@ PieceManager::~PieceManager()
     }
 }
 
-void PieceManager::drawPieces() 
+void PieceManager::drawPieces()
 {
     if (highlightMouse)
     {

@@ -116,6 +116,18 @@ void Game::pollEvent()
             m_Is_Selected = false;
             break;
 
+        case SDL_KEYDOWN:
+            if (m_Event->key.keysym.scancode == SDL_SCANCODE_ESCAPE)
+            {
+                m_Running = false;
+            }
+            if (m_Event->key.keysym.scancode == SDL_SCANCODE_R)
+            {
+                bpm->reset();
+
+            }
+            break;
+
         default:
             break;
         }

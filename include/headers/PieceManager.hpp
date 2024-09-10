@@ -50,6 +50,8 @@ public:
 
     void promotePawn(Piece* pawn, const std::string& promotionPieceName);
 
+    void reset();
+
 private:
     void initDefault();
 

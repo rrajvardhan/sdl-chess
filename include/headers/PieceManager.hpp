@@ -48,9 +48,10 @@ public:
     void calculateValidMoves(Piece* piece);
     void drawValidMoves();
 
-    void promotePawn(Piece* pawn, const std::string& promotionPieceName);
+    void promotePawn(Piece* pawn);
 
     void reset();
+
 
 private:
     void initDefault();

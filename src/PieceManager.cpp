@@ -327,11 +327,11 @@ void PieceManager::movePiece(Piece *piece, int newRow, int newCol)
     // TODO: pawn promotion options
     if (pieceName == "W_P" && newRow == 0)
     {
-        promotePawn(piece, "W_Q");
+        promotePawn(piece);
     }
     else if (pieceName == "B_P" && newRow == 7)
     {
-        promotePawn(piece, "B_Q");
+        promotePawn(piece);
     }
     else
     {
@@ -341,22 +341,105 @@ void PieceManager::movePiece(Piece *piece, int newRow, int newCol)
     selectedPiece = nullptr;
 }
 
-void PieceManager::promotePawn(Piece *pawn, const std::string &promotionPieceName)
+// void PieceManager::promotePawn(Piece *pawn, const std::string &promotionPieceName)
+// {
+//     int row = pawn->getPositionY() / PIECE_SIZE;
+//     int col = pawn->getPositionX() / PIECE_SIZE;
+
+//     // Remove the pawn from the board
+//     boardPieces[row][col] = 0;
+
+//     // Create the promoted piece
+//     Piece *promotedPiece = new Piece(m_Renderer, promotionPieceName);
+//     promotedPiece->setPosition(col * PIECE_SIZE, row * PIECE_SIZE);
+
+//     // Add the promoted piece to the board
+//     boardPieces[row][col] = (promotionPieceName == "W_Q") ? PIECE_TYPE::W_Q : PIECE_TYPE::B_Q;
+
+//     // Update the pieces list
+//     for (auto it = pieces.begin(); it != pieces.end(); ++it)
+//     {
+//         if (*it == pawn)
+//         {
+//             delete pawn;
+//             pieces.erase(it);
+//             break;
+//         }
+//     }
+//     pieces.push_back(promotedPiece);
+// }
+
+void PieceManager::promotePawn(Piece *pawn)
 {
     int row = pawn->getPositionY() / PIECE_SIZE;
     int col = pawn->getPositionX() / PIECE_SIZE;
 
-    // Remove the pawn from the board
-    boardPieces[row][col] = 0;
+    // Set up rectangles for each piece type
+    SDL_Rect queenRect = {195, 5, 80, 20};
+    SDL_Rect rookRect = {275, 5, 80, 20};
+    SDL_Rect bishopRect = {355, 5, 80, 20};
+    SDL_Rect knightRect = {435, 5, 80, 20};
 
-    // Create the promoted piece
-    Piece *promotedPiece = new Piece(m_Renderer, promotionPieceName);
-    promotedPiece->setPosition(col * PIECE_SIZE, row * PIECE_SIZE);
+    SDL_SetRenderDrawColor(m_Renderer, 255, 215, 0, 255);
+    SDL_RenderFillRect(m_Renderer, &queenRect);
 
-    // Add the promoted piece to the board
-    boardPieces[row][col] = (promotionPieceName == "W_Q") ? PIECE_TYPE::W_Q : PIECE_TYPE::B_Q;
+    SDL_SetRenderDrawColor(m_Renderer, 169, 169, 169, 255);
+    SDL_RenderFillRect(m_Renderer, &rookRect);
 
-    // Update the pieces list
+    SDL_SetRenderDrawColor(m_Renderer, 128, 0, 128, 255);
+    SDL_RenderFillRect(m_Renderer, &bishopRect);
+
+    SDL_SetRenderDrawColor(m_Renderer, 0, 0, 255, 255);
+    SDL_RenderFillRect(m_Renderer, &knightRect);
+
+    SDL_RenderPresent(m_Renderer);
+    SDL_Event e;
+    bool promotionDone = false;
+
+    while (!promotionDone)
+    {
+        while (SDL_PollEvent(&e))
+        {
+            if (e.type == SDL_MOUSEBUTTONDOWN)
+            {
+                SDL_Point mousePos = {e.button.x, e.button.y};
+
+                if (SDL_PointInRect(&mousePos, &queenRect))
+                {
+                    Piece *promotedPiece = new Piece(m_Renderer, "W_Q");
+                    promotedPiece->setPosition(col * PIECE_SIZE, row * PIECE_SIZE);
+                    boardPieces[row][col] = PIECE_TYPE::W_Q;
+                    pieces.push_back(promotedPiece);
+                    promotionDone = true;
+                }
+                else if (SDL_PointInRect(&mousePos, &rookRect))
+                {
+                    Piece *promotedPiece = new Piece(m_Renderer, "W_R");
+                    promotedPiece->setPosition(col * PIECE_SIZE, row * PIECE_SIZE);
+                    boardPieces[row][col] = PIECE_TYPE::W_R;
+                    pieces.push_back(promotedPiece);
+                    promotionDone = true;
+                }
+                else if (SDL_PointInRect(&mousePos, &bishopRect))
+                {
+                    Piece *promotedPiece = new Piece(m_Renderer, "W_B");
+                    promotedPiece->setPosition(col * PIECE_SIZE, row * PIECE_SIZE);
+                    boardPieces[row][col] = PIECE_TYPE::W_B;
+                    pieces.push_back(promotedPiece);
+                    promotionDone = true;
+                }
+                else if (SDL_PointInRect(&mousePos, &knightRect))
+                {
+                    Piece *promotedPiece = new Piece(m_Renderer, "W_Kn");
+                    promotedPiece->setPosition(col * PIECE_SIZE, row * PIECE_SIZE);
+                    boardPieces[row][col] = PIECE_TYPE::W_Kn;
+                    pieces.push_back(promotedPiece);
+                    promotionDone = true;
+                }
+            }
+        }
+    }
+
     for (auto it = pieces.begin(); it != pieces.end(); ++it)
     {
         if (*it == pawn)
@@ -366,7 +449,6 @@ void PieceManager::promotePawn(Piece *pawn, const std::string &promotionPieceNam
             break;
         }
     }
-    pieces.push_back(promotedPiece);
 }
 
 void PieceManager::setSelectedPiece(Piece *piece)

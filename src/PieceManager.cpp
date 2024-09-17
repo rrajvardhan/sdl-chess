@@ -341,36 +341,6 @@ void PieceManager::movePiece(Piece *piece, int newRow, int newCol)
     selectedPiece = nullptr;
 }
 
-/*
-void PieceManager::promotePawn(Piece *pawn, const std::string &promotionPieceName)
-{
-    int row = pawn->getPositionY() / PIECE_SIZE;
-    int col = pawn->getPositionX() / PIECE_SIZE;
-
-    // Remove the pawn from the board
-    boardPieces[row][col] = 0;
-
-    // Create the promoted piece
-    Piece *promotedPiece = new Piece(m_Renderer, promotionPieceName);
-    promotedPiece->setPosition(col * PIECE_SIZE, row * PIECE_SIZE);
-
-    // Add the promoted piece to the board
-    boardPieces[row][col] = (promotionPieceName == "W_Q") ? PIECE_TYPE::W_Q : PIECE_TYPE::B_Q;
-
-    // Update the pieces list
-    for (auto it = pieces.begin(); it != pieces.end(); ++it)
-    {
-        if (*it == pawn)
-        {
-            delete pawn;
-            pieces.erase(it);
-            break;
-        }
-    }
-    pieces.push_back(promotedPiece);
-}
-*/
-
 void PieceManager::promotePawn(Piece *pawn)
 {
     int row = pawn->getPositionY() / PIECE_SIZE;

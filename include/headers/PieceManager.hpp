@@ -49,7 +49,6 @@ public:
     void drawValidMoves();
 
     void promotePawn(Piece* pawn);
-
     void reset();
 
 

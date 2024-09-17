@@ -371,29 +371,30 @@ void PieceManager::promotePawn(Piece *pawn, const std::string &promotionPieceNam
 }
 */
 
-//TODO: add font/text
 void PieceManager::promotePawn(Piece *pawn)
 {
     int row = pawn->getPositionY() / PIECE_SIZE;
     int col = pawn->getPositionX() / PIECE_SIZE;
+    
+    int x = ORIGIN_X;
+    int y = 160 + ORIGIN_Y;
 
-    // Set up rectangles for each piece type
-    SDL_Rect queenRect = {195, 5, 80, 20};
-    SDL_Rect rookRect = {275, 5, 80, 20};
-    SDL_Rect bishopRect = {355, 5, 80, 20};
-    SDL_Rect knightRect = {435, 5, 80, 20};
+    SDL_Rect queenRect = {x, y, PIECE_SIZE, PIECE_SIZE};
+    SDL_Rect rookRect = {x, y +80, PIECE_SIZE, PIECE_SIZE};
+    SDL_Rect bishopRect = {x , y+160, PIECE_SIZE, PIECE_SIZE};
+    SDL_Rect knightRect = {x, y+240, PIECE_SIZE, PIECE_SIZE};
 
-    SDL_SetRenderDrawColor(m_Renderer, 255, 215, 0, 255);
+    SDL_SetRenderDrawColor(m_Renderer, 180, 180, 180, 255);
+
     SDL_RenderFillRect(m_Renderer, &queenRect);
-
-    SDL_SetRenderDrawColor(m_Renderer, 169, 169, 169, 255);
     SDL_RenderFillRect(m_Renderer, &rookRect);
-
-    SDL_SetRenderDrawColor(m_Renderer, 128, 0, 128, 255);
     SDL_RenderFillRect(m_Renderer, &bishopRect);
-
-    SDL_SetRenderDrawColor(m_Renderer, 0, 0, 255, 255);
     SDL_RenderFillRect(m_Renderer, &knightRect);
+
+    TextureManager::getInstance()->draw((row == 0 ? "W_Q" : "B_Q"), queenRect.x,queenRect.y,queenRect.w,queenRect.h,m_Renderer);
+    TextureManager::getInstance()->draw((row == 0 ? "W_R" : "B_R"), rookRect.x,rookRect.y,rookRect.w,rookRect.h,m_Renderer);
+    TextureManager::getInstance()->draw((row == 0 ? "W_B" : "B_B"), bishopRect.x,bishopRect.y,bishopRect.w,bishopRect.h,m_Renderer);
+    TextureManager::getInstance()->draw((row == 0 ? "W_Kn" : "B_Kn"), knightRect.x,knightRect.y,knightRect.w,knightRect.h,m_Renderer);
 
     SDL_RenderPresent(m_Renderer);
     SDL_Event e;

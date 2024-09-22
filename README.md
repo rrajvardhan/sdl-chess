@@ -22,5 +22,7 @@ This is a 2D chess game developed using SDL2 and C++. The game features a graphi
 
     Alternatively, you can manually compile the project with
     ```
-    g++ -Iinclude -Iinclude/SDL2 -Iinclude/headers -Isrc main.cpp src/Pieces.cpp src/TextureManager.cpp src/Board.cpp src/PieceManager.cpp src/Game.cpp -o main.exe -Llib -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
+    g++ -Iinclude -Iinclude/SDL2 -Iinclude/headers -Isrc main.cpp
+    src/Pieces.cpp src/TextureManager.cpp src/Board.cpp src/PieceManager.cpp
+    src/Game.cpp -o main.exe -Llib -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
     ```

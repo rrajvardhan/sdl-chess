@@ -22,6 +22,10 @@ public:
     {
         return pieceProperty->x;
     }
+    std::string getColor()
+    {
+        return (m_Name[0] == 'B') ? "black" : "white";
+    }
 
     int getPositionY()
     {

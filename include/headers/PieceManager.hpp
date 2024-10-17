@@ -3,27 +3,24 @@
 
 #include <array>
 #include <vector>
-
 #include "Board.hpp"
 #include "Pieces.hpp"
 
 namespace PIECE_TYPE
 {
-    const int B_P = -6;
-    const int B_R = -5;
-    const int B_Kn = -4;
-    const int B_B = -3;
-    const int B_Q = -2;
-    const int B_K = -1;
-    //
-    const int EMPTY = 0;
-    //
-    const int W_P = 6;
-    const int W_R = 5;
-    const int W_Kn = 4;
-    const int W_B = 3;
-    const int W_Q = 2;
-    const int W_K = 1;
+    const int B_P = -6;  // Black Pawn
+    const int B_R = -5;  // Black Rook
+    const int B_Kn = -4; // Black Knight
+    const int B_B = -3;  // Black Bishop
+    const int B_Q = -2;  // Black Queen
+    const int B_K = -1;  // Black King
+    const int EMPTY = 0; // Empty square
+    const int W_P = 6;   // White Pawn
+    const int W_R = 5;   // White Rook
+    const int W_Kn = 4;  // White Knight
+    const int W_B = 3;   // White Bishop
+    const int W_Q = 2;   // White Queen
+    const int W_K = 1;   // White King
 }
 
 class PieceManager
@@ -33,24 +30,18 @@ public:
     ~PieceManager();
 
     void drawPieces();
-
     Piece *getPieceAtPosition(int row, int col);
     void movePiece(Piece *piece, int row, int col);
-
     void setSelectedPiece(Piece *piece);
     Piece *getSelectedPiece() const;
     void clearSelection();
-
     void setMouseHighlight(int row, int col);
     void clearMouseHighlight();
-
     bool isValidMove(Piece *piece, int targetRow, int targetCol);
-    void calculateValidMoves(Piece* piece);
+    void calculateValidMoves(Piece *piece);
     void drawValidMoves();
-
-    void promotePawn(Piece* pawn);
+    void promotePawn(Piece *pawn);
     void reset();
-
 
 private:
     void initDefault();

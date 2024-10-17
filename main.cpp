@@ -4,7 +4,7 @@
 
 #include "Game.hpp"
 
-const int screenWidth = 710;
+const int screenWidth = 1000;
 const int screenHeight = 710;
 
 bool init()

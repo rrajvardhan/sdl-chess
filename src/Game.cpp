@@ -16,6 +16,8 @@ Game::Game(const char *p_Title, int p_Width, int p_Height) : selectedPiece(nullp
 {
     init();
 
+    currentPlayerTurn = 0; // White starts first
+
     m_Window = SDL_CreateWindow(p_Title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, p_Width, p_Height, SDL_WINDOW_SHOWN);
     m_Renderer = SDL_CreateRenderer(m_Window, -1, SDL_RENDERER_PRESENTVSYNC);
 
@@ -97,6 +99,8 @@ void Game::pollEvent()
                     else if (bpm->isValidMove(bpm->getSelectedPiece(), row, col))
                     {
                         bpm->movePiece(bpm->getSelectedPiece(), row, col);
+                        // Switch turns after a valid move
+                        currentPlayerTurn = 1 - currentPlayerTurn; // Toggle between 0 and 1
                         bpm->clearSelection();
                     }
                     else
@@ -106,8 +110,13 @@ void Game::pollEvent()
                 }
                 else if (piece)
                 {
-                    bpm->setSelectedPiece(piece);
-                    bpm->calculateValidMoves(piece);
+                    // Only allow the player whose turn it is to select their pieces
+                    if ((currentPlayerTurn == 0 && piece->getColor() == "white") ||
+                        (currentPlayerTurn == 1 && piece->getColor() == "black"))
+                    {
+                        bpm->setSelectedPiece(piece);
+                        bpm->calculateValidMoves(piece);
+                    }
                 }
             }
             break;
@@ -124,7 +133,6 @@ void Game::pollEvent()
             if (m_Event->key.keysym.scancode == SDL_SCANCODE_R)
             {
                 bpm->reset();
-
             }
             break;
 

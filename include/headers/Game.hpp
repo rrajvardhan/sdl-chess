@@ -39,6 +39,9 @@ private:
     Piece* selectedPiece;
     int selectedRow;
     int selectedCol;
+
+    int currentPlayerTurn; // 0 for white, 1 for black
+
 };
 
 #endif

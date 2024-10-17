@@ -301,6 +301,13 @@ void PieceManager::movePiece(Piece *piece, int newRow, int newCol)
     else if (pieceName == "W_P")
         pieceType = PIECE_TYPE::W_P;
 
+    // Algebraic notation for the move
+    std::string columns = "abcdefgh";
+    std::string fromPosition = columns[oldCol] + std::to_string(8 - oldRow);
+    std::string toPosition = columns[newCol] + std::to_string(8 - newRow);
+
+    std::cout << pieceName << " moved from " << fromPosition << " to " << toPosition << std::endl;
+
     // Capture the opponent's piece if present
     int targetPieceType = boardPieces[newRow][newCol];
     if (targetPieceType != 0 && ((pieceType > 0 && targetPieceType < 0) || (pieceType < 0 && targetPieceType > 0)))
@@ -311,6 +318,7 @@ void PieceManager::movePiece(Piece *piece, int newRow, int newCol)
             Piece *p = *it;
             if (p->getPositionY() / PIECE_SIZE == newRow && p->getPositionX() / PIECE_SIZE == newCol)
             {
+                std::cout << "Captured piece: " << p->getName() << " at " << toPosition << std::endl;
                 delete p;
                 pieces.erase(it);
                 break;
@@ -345,14 +353,14 @@ void PieceManager::promotePawn(Piece *pawn)
 {
     int row = pawn->getPositionY() / PIECE_SIZE;
     int col = pawn->getPositionX() / PIECE_SIZE;
-    
+
     int x = ORIGIN_X;
     int y = 160 + ORIGIN_Y;
 
     SDL_Rect queenRect = {x, y, PIECE_SIZE, PIECE_SIZE};
-    SDL_Rect rookRect = {x, y +80, PIECE_SIZE, PIECE_SIZE};
-    SDL_Rect bishopRect = {x , y+160, PIECE_SIZE, PIECE_SIZE};
-    SDL_Rect knightRect = {x, y+240, PIECE_SIZE, PIECE_SIZE};
+    SDL_Rect rookRect = {x, y + 80, PIECE_SIZE, PIECE_SIZE};
+    SDL_Rect bishopRect = {x, y + 160, PIECE_SIZE, PIECE_SIZE};
+    SDL_Rect knightRect = {x, y + 240, PIECE_SIZE, PIECE_SIZE};
 
     SDL_SetRenderDrawColor(m_Renderer, 180, 180, 180, 255);
 
@@ -361,10 +369,10 @@ void PieceManager::promotePawn(Piece *pawn)
     SDL_RenderFillRect(m_Renderer, &bishopRect);
     SDL_RenderFillRect(m_Renderer, &knightRect);
 
-    TextureManager::getInstance()->draw((row == 0 ? "W_Q" : "B_Q"), queenRect.x,queenRect.y,queenRect.w,queenRect.h,m_Renderer);
-    TextureManager::getInstance()->draw((row == 0 ? "W_R" : "B_R"), rookRect.x,rookRect.y,rookRect.w,rookRect.h,m_Renderer);
-    TextureManager::getInstance()->draw((row == 0 ? "W_B" : "B_B"), bishopRect.x,bishopRect.y,bishopRect.w,bishopRect.h,m_Renderer);
-    TextureManager::getInstance()->draw((row == 0 ? "W_Kn" : "B_Kn"), knightRect.x,knightRect.y,knightRect.w,knightRect.h,m_Renderer);
+    TextureManager::getInstance()->draw((row == 0 ? "W_Q" : "B_Q"), queenRect.x, queenRect.y, queenRect.w, queenRect.h, m_Renderer);
+    TextureManager::getInstance()->draw((row == 0 ? "W_R" : "B_R"), rookRect.x, rookRect.y, rookRect.w, rookRect.h, m_Renderer);
+    TextureManager::getInstance()->draw((row == 0 ? "W_B" : "B_B"), bishopRect.x, bishopRect.y, bishopRect.w, bishopRect.h, m_Renderer);
+    TextureManager::getInstance()->draw((row == 0 ? "W_Kn" : "B_Kn"), knightRect.x, knightRect.y, knightRect.w, knightRect.h, m_Renderer);
 
     SDL_RenderPresent(m_Renderer);
     SDL_Event e;
@@ -642,3 +650,4 @@ bool PieceManager::isValidMove(Piece *piece, int targetRow, int targetCol)
 
     return false;
 }
+

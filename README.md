@@ -13,7 +13,7 @@ This is a 2D chess game developed using SDL2 and C++. The game features a graphi
    ```
    cd path/to/your/project
    ```
-2. **Build the project**:
+2. **Build the project (Windows)**:
 
     **Using the make command, simply run:**
     ```
